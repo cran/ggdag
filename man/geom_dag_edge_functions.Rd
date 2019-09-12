@@ -23,20 +23,22 @@ geom_dag_edges_arc(mapping = NULL, data = NULL, curvature = 0.5,
   label_push = NULL, ...)
 
 geom_dag_edges_diagonal(mapping = NULL, data = NULL,
-  position = "identity", arrow = grid::arrow(length = grid::unit(5, "pt"),
-  type = "closed"), na.rm = TRUE, show.legend = NA, inherit.aes = TRUE,
-  n = 100, lineend = "butt", linejoin = "round", linemitre = 1,
-  label_colour = "black", label_alpha = 1, label_parse = FALSE,
-  check_overlap = FALSE, angle_calc = "rot", force_flip = TRUE,
-  label_dodge = NULL, label_push = NULL, ...)
+  position = "identity", arrow = grid::arrow(length = grid::unit(5,
+  "pt"), type = "closed"), na.rm = TRUE, show.legend = NA,
+  inherit.aes = TRUE, curvature = 1, n = 100, lineend = "butt",
+  linejoin = "round", linemitre = 1, label_colour = "black",
+  label_alpha = 1, label_parse = FALSE, check_overlap = FALSE,
+  angle_calc = "rot", force_flip = TRUE, label_dodge = NULL,
+  label_push = NULL, ...)
 
-geom_dag_edges_fan(mapping = NULL, data = NULL, position = "identity",
-  arrow = grid::arrow(length = grid::unit(5, "pt"), type = "closed"),
-  na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, spread = 0.7,
-  n = 100, lineend = "butt", linejoin = "round", linemitre = 1,
-  label_colour = "black", label_alpha = 1, label_parse = FALSE,
-  check_overlap = FALSE, angle_calc = "rot", force_flip = TRUE,
-  label_dodge = NULL, label_push = NULL, ...)
+geom_dag_edges_fan(mapping = NULL, data = NULL,
+  position = "identity", arrow = grid::arrow(length = grid::unit(5,
+  "pt"), type = "closed"), na.rm = TRUE, show.legend = NA,
+  inherit.aes = TRUE, spread = 0.7, n = 100, lineend = "butt",
+  linejoin = "round", linemitre = 1, label_colour = "black",
+  label_alpha = 1, label_parse = FALSE, check_overlap = FALSE,
+  angle_calc = "rot", force_flip = TRUE, label_dodge = NULL,
+  label_push = NULL, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by aes() or aes_(). If
@@ -81,11 +83,11 @@ different directions. Default to FALSE.}
 
 \item{n}{The number of points to create along the path.}
 
-\item{lineend}{Line end style (round, butt, square)}
+\item{lineend}{Line end style (round, butt, square).}
 
-\item{linejoin}{Line join style (round, mitre, bevel)}
+\item{linejoin}{Line join style (round, mitre, bevel).}
 
-\item{linemitre}{Line mitre limit (number greater than 1)}
+\item{linemitre}{Line mitre limit (number greater than 1).}
 
 \item{label_colour}{The colour of the edge label. If \code{NA} it will use
 the colour of the edge.}
@@ -113,8 +115,7 @@ to add to the label in case of \code{angle_calc} is either 'along' or 'across'}
 \item{label_push}{A \code{\link[grid:unit]{grid::unit()}} giving a fixed horizontal shift
 to add to the label in case of \code{angle_calc} is either 'along' or 'across'}
 
-\item{spread}{Modify the width of the fans \code{spread &gt; 1} will create
-wider fans while the reverse will make them more narrow.}
+\item{spread}{Deprecated. Use \code{strength} instead.}
 }
 \description{
 Directed DAG edges
@@ -160,10 +161,9 @@ p <- dagify(y ~ x + z2 + w2 + w1,
   z2 ~ w2 + v,
   L ~ w1 + w2) \%>\%
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-    geom_dag_node() +
+    geom_dag_point() +
     geom_dag_text() +
-    theme_dag() +
-    scale_dag()
+    theme_dag()
 
 p + geom_dag_edges_link()
 p + geom_dag_edges_arc()

@@ -23,7 +23,7 @@
 #' @param use_labels a string. Variable to use for `geom_dag_repel_label()`.
 #'   Default is `NULL`.
 #' @inheritParams tidy_dagitty
-#' @inheritParams scale_dag
+#' @inheritParams scale_adjusted
 #'
 #' @return a `tidy_dagitty` with at least one DAG, including a `dag`
 #'   column to identify graph set for equivalent DAGs or a `reversable`
@@ -61,57 +61,66 @@ node_equivalent_dags <- function(.dag, n = 100, layout = "auto", ...) {
 #' @export
 ggdag_equivalent_dags <- function(.tdy_dag, ..., node_size = 16, text_size = 3.88,
                                   label_size = text_size, text_col = "white", label_col = text_col,
-                                  node = TRUE, stylized = TRUE, text = TRUE,
+                                  node = TRUE, stylized = FALSE, text = TRUE,
                                   use_labels = NULL) {
 
   .tdy_dag <- if_not_tidy_daggity(.tdy_dag) %>%
     node_equivalent_dags(...)
 
   p <- ggplot2::ggplot(.tdy_dag, ggplot2::aes(x = x, y = y, xend = xend, yend = yend)) +
-    geom_dag_edges() +
-    theme_dag()
+    geom_dag_edges()
 
   if (node) {
     if (stylized) {
-        p <- p + geom_dag_node(size = node_size)
-      } else {
-        p <- p + geom_dag_point(size = node_size)
-      }
+      p <- p + geom_dag_node(size = node_size)
+    } else {
+      p <- p + geom_dag_point(size = node_size)
     }
+  }
 
   if (text) p <- p + geom_dag_text(col = text_col, size = text_size)
 
   if (!is.null(use_labels)) p <- p +
-      geom_dag_label_repel(ggplot2::aes_string(label = use_labels), size = text_size,
-                           col = label_col, show.legend = FALSE)
+    geom_dag_label_repel(ggplot2::aes_string(label = use_labels), size = text_size,
+                         col = label_col, show.legend = FALSE)
 
   if (dplyr::n_distinct(.tdy_dag$data$dag) > 1) {
     p <- p +
       ggplot2::facet_wrap(~dag) +
-      scale_dag(expand_x = expand_scale(c(0.25, 0.25)))
-  } else {
-    p <- p + scale_dag()
+      expand_plot(expand_x = expand_scale(c(0.25, 0.25)),
+                  expand_y = expand_scale(c(0.25, 0.25)))
   }
 
   p
+}
+
+hash <- function(x, y) {
+  purrr::pmap_chr(list(x, y), ~paste0(sort(c(.x, .y)), collapse = "_"))
 }
 
 #' @rdname equivalent
 #' @export
 node_equivalent_class <- function(.dag, layout = "auto") {
   .dag <- if_not_tidy_daggity(.dag, layout = layout)
-  .dag$data <- dagitty::equivalenceClass(.dag$dag) %>%
+  ec_data <- dagitty::equivalenceClass(.dag$dag) %>%
     dagitty::edges(.) %>%
     dplyr::filter(e == "--") %>%
-    dplyr::select(name = v, reversable = e) %>%
-    dplyr::mutate(name = as.character(name)) %>%
-    dplyr::left_join(.dag$data, .,  by = "name") %>%
-    dplyr::mutate(reversable = !is.na(reversable))
+    dplyr::select(name = v, reversable = e, to = w) %>%
+    dplyr::mutate_at(c("name", "to"), as.character) %>%
+    dplyr::mutate(hash = hash(name, to)) %>%
+    dplyr::select(hash, reversable)
+
+  .dag$data <- .dag$data %>%
+    dplyr::mutate(hash = hash(name, to)) %>%
+    dplyr::left_join(ec_data, by = "hash") %>%
+    dplyr::mutate(reversable = !is.na(reversable)) %>%
+    dplyr::select(-hash)
 
   .dag
 }
 
 #' @rdname equivalent
+#' @inheritParams expand_plot
 #' @export
 ggdag_equivalent_class <- function(.tdy_dag,
                                    expand_x = expand_scale(c(.10, .10)),
@@ -119,7 +128,7 @@ ggdag_equivalent_class <- function(.tdy_dag,
                                    breaks = ggplot2::waiver(), ...,
                                    node_size = 16, text_size = 3.88, label_size = text_size,
                                    text_col = "white", label_col = text_col,
-                                   node = TRUE, stylized = TRUE,
+                                   node = TRUE, stylized = FALSE,
                                    text = TRUE, use_labels = NULL) {
   .tdy_dag <- if_not_tidy_daggity(.tdy_dag) %>%
     node_equivalent_class(...)
@@ -131,25 +140,21 @@ ggdag_equivalent_class <- function(.tdy_dag,
     geom_dag_edges(data_directed = dplyr::filter(non_reversable_lines, direction != "<->"),
                    data_bidirected = dplyr::filter(non_reversable_lines, direction == "<->")) +
     geom_dag_edges_link(data = reversable_lines, arrow = NULL) +
-    theme_dag() +
-    ggplot2::scale_color_brewer(name = "", drop = FALSE, palette = "Set2", na.value = "grey50", breaks = breaks) +
-    ggplot2::scale_fill_brewer(name = "", drop = FALSE, palette = "Set2", na.value = "grey50") +
-    ggplot2::scale_x_continuous(expand = expand_x) +
-    ggplot2::scale_y_continuous(expand = expand_y) +
-    ggraph::scale_edge_alpha_manual(name = "Reversable", drop = FALSE, values = c(.1, 1))
+    breaks(breaks) +
+    ggraph::scale_edge_alpha_manual(name = "Reversable", drop = FALSE, values = c(.30, 1))
 
   if (node) {
     if (stylized) {
-        p <- p + geom_dag_node(size = node_size)
-      } else {
-        p <- p + geom_dag_point(size = node_size)
-      }
+      p <- p + geom_dag_node(size = node_size)
+    } else {
+      p <- p + geom_dag_point(size = node_size)
     }
+  }
 
   if (text) p <- p + geom_dag_text(col = text_col, size = text_size)
 
   if (!is.null(use_labels)) p <- p +
-      geom_dag_label_repel(ggplot2::aes_string(label = use_labels), size = text_size,
-                           col = label_col, show.legend = FALSE)
+    geom_dag_label_repel(ggplot2::aes_string(label = use_labels), size = text_size,
+                         col = label_col, show.legend = FALSE)
   p
 }

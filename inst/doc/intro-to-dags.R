@@ -5,14 +5,18 @@ knitr::opts_chunk$set(
   fig.width = 7, 
   fig.height = 4, 
   fig.align = "center",
-  fig.dpi = 200,
+  fig.dpi = 320,
   warning = FALSE,
   message = FALSE
 )
 set.seed(2939)
 
-## ---- fig.width = 4------------------------------------------------------
+## ----set_theme-----------------------------------------------------------
+#  set theme of all DAGs to `theme_dag()`
 library(ggdag)
+theme_set(theme_dag())
+
+## ---- fig.width = 4------------------------------------------------------
 dagify(y ~ x) %>% 
   ggdag()
 
@@ -48,10 +52,10 @@ smoking_ca_dag <- dagify(cardiacarrest ~ cholesterol,
 ggdag(smoking_ca_dag, text = FALSE, use_labels = "label")
 
 ## ------------------------------------------------------------------------
-ggdag_paths(smoking_ca_dag, text = FALSE, use_labels = "label")
+ggdag_paths(smoking_ca_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
 ## ------------------------------------------------------------------------
-ggdag_adjustment_set(smoking_ca_dag, text = FALSE, use_labels = "label")
+ggdag_adjustment_set(smoking_ca_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
 ## ---- fig.width = 4------------------------------------------------------
 fever_dag <- collider_triangle(x = "Influenza", 

@@ -5,14 +5,18 @@ knitr::opts_chunk$set(
   fig.width = 7, 
   fig.height = 5, 
   fig.align = "center",
-  fig.dpi = 200,
+  fig.dpi = 320,
   warning = FALSE,
   message = FALSE
 )
 set.seed(2939)
 
-## ------------------------------------------------------------------------
+## ----set_theme-----------------------------------------------------------
+#  set theme of all DAGs to `theme_dag()`
 library(ggdag)
+theme_set(theme_dag())
+
+## ------------------------------------------------------------------------
 confounder_triangle(x = "Coffee", y = "Lung Cancer", z = "Smoking") %>% 
   ggdag_dconnected(text = FALSE, use_labels = "label")
 
@@ -29,7 +33,7 @@ coffee_dag <- dagify(cancer ~ smoking,
 ggdag(coffee_dag, text = FALSE, use_labels = "label")
 
 ## ---- fig.width = 7.5----------------------------------------------------
-ggdag_adjustment_set(coffee_dag, text = FALSE, use_labels = "label")
+ggdag_adjustment_set(coffee_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
 ## ------------------------------------------------------------------------
 collider_triangle() %>% 
@@ -67,13 +71,13 @@ surgical_dag <- dagify(ready_tool ~ readiness,
 ggdag_adjust(surgical_dag, text = FALSE, use_labels = "label", collider_lines = FALSE)
 
 ## ------------------------------------------------------------------------
-ggdag_adjustment_set(surgical_dag, text = FALSE, use_labels = "label")
+ggdag_adjustment_set(surgical_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
 ## ------------------------------------------------------------------------
 ggdag_butterfly_bias(edge_type = "diagonal")
 
 ## ------------------------------------------------------------------------
-ggdag_adjustment_set(butterfly_bias())
+ggdag_adjustment_set(butterfly_bias(), shadow = TRUE)
 
 ## ------------------------------------------------------------------------
 # set coordinates

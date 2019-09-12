@@ -6,11 +6,11 @@
 \alias{geom_dag_point}
 \title{DAG Nodes}
 \usage{
-geom_dag_node(mapping = NULL, data = NULL, position = "identity", ...,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+geom_dag_node(mapping = NULL, data = NULL, position = "identity",
+  ..., na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 
-geom_dag_point(mapping = NULL, data = NULL, position = "identity", ...,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+geom_dag_point(mapping = NULL, data = NULL, position = "identity",
+  ..., na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -29,15 +29,16 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame.}, and
-will be used as the layer data.}
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
+\item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
@@ -87,8 +88,7 @@ p <- g \%>\%
   tidy_dagitty() \%>\%
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
     geom_dag_edges() +
-    theme_dag() +
-    scale_dag()
+    theme_dag()
 
 p +
   geom_dag_node() +

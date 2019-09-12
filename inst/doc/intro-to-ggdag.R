@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
   fig.width = 5, 
   fig.height = 5, 
   fig.align = "center",
-  fig.dpi = 200,
+  fig.dpi = 320,
   warning=FALSE,
   message=FALSE
 )
@@ -68,30 +68,28 @@ ggdag_adjustment_set(bigger_dag)
 bigger_dag %>% 
     node_parents("x") %>%
     ggplot(aes(x = x, y = y, xend = xend, yend = yend, color = parent)) +
-      geom_dag_node() +
+      geom_dag_point() +
       geom_dag_edges() +
       geom_dag_text(col = "white") +
       theme_dag() +
-      scale_dag(breaks  = c("parent", "child")) #  ignores NA in legend
+      scale_color_hue(breaks  = c("parent", "child")) #  ignores NA in legend
 
 ## ------------------------------------------------------------------------
 dagify(y ~ x,
        m ~ x + y) %>% 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-    geom_dag_node() +
+    geom_dag_point() +
     geom_dag_edges_arc() +
     geom_dag_text() +
-    theme_dag() +
-    scale_dag()
+    theme_dag()
 
 ## ----canonical-----------------------------------------------------------
 dagify(y ~ x + z,
        x ~~ z) %>% 
     node_canonical() %>% 
     ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-      geom_dag_node() +
+      geom_dag_point() +
       geom_dag_edges_diagonal() +
       geom_dag_text() +
-      theme_dag() +
-      scale_dag()
+      theme_dag()
 
