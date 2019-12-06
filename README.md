@@ -1,12 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
 [![Travis-CI Build
 Status](https://travis-ci.org/malcolmbarrett/ggdag.svg?branch=master)](https://travis-ci.org/malcolmbarrett/ggdag)
 [![AppVeyor Build
 status](https://ci.appveyor.com/api/projects/status/kd3ed7rj6p2vd36t?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/ggdag)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ggdag)](https://cran.r-project.org/package=ggdag)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Codecov test
+coverage](https://codecov.io/gh/malcolmbarrett/ggdag/branch/master/graph/badge.svg)](https://codecov.io/gh/malcolmbarrett/ggdag?branch=master)
+[![Monthly CRAN
+downloads](https://cranlogs.r-pkg.org/badges/ggdag)](https://cran.r-project.org/package=ggdag)
+[![Total CRAN
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ggdag)](https://cran.r-project.org/package=ggdag)
+<!-- badges: end -->
 
 # ggdag: An R Package for visualizing and analyzing causal directed acyclic graphs
 
@@ -131,7 +142,14 @@ As well as geoms and other functions for plotting them directly in
 dagify(m ~ x + y) %>% 
   tidy_dagitty() %>% 
   node_dconnected("x", "y", controlling_for = "m") %>%
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend, shape = adjusted, col = d_relationship)) +
+  ggplot(aes(
+    x = x, 
+    y = y, 
+    xend = xend, 
+    yend = yend, 
+    shape = adjusted, 
+    col = d_relationship
+  )) +
     geom_dag_edges(aes(end_cap = ggraph::circle(10, "mm"))) +
     geom_dag_collider_edges() +
     geom_dag_point() +
@@ -139,7 +157,11 @@ dagify(m ~ x + y) %>%
     theme_dag() + 
     scale_adjusted() +
     expand_plot(expand_y = expand_scale(c(0.2, 0.2))) +
-    scale_color_hue(name = "d-relationship", na.value = "grey75") 
+    scale_color_viridis_d(
+      name = "d-relationship", 
+      na.value = "grey85", 
+      begin = .35
+    ) 
 ```
 
 <img src="man/figures/ggdag_geoms-1.png" width="100%" />

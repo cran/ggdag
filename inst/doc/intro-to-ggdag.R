@@ -1,41 +1,41 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.width = 5, 
-  fig.height = 5, 
-  fig.align = "center",
-  fig.dpi = 320,
-  warning=FALSE,
-  message=FALSE
+	fig.align = "center",
+	fig.dpi = 320,
+	fig.height = 5,
+	fig.width = 5,
+	message = FALSE,
+	warning = FALSE,
+	collapse = TRUE,
+	comment = "#>"
 )
 set.seed(2939)
 
-## ----dagitty-------------------------------------------------------------
+## ----dagitty------------------------------------------------------------------
 library(dagitty)
 library(ggdag)
 
 dag <- dagitty("dag{y <- z -> x}")
 tidy_dagitty(dag)
 
-## ----dagify--------------------------------------------------------------
+## ----dagify-------------------------------------------------------------------
 dagified <- dagify(x ~ z,
                    y ~ z,
                    exposure = "x",
                    outcome = "y")
 tidy_dagitty(dagified)
 
-## ----ggdag_layout--------------------------------------------------------
+## ----ggdag_layout-------------------------------------------------------------
 ggdag(dag, layout = "circle")
 
-## ----dag_str-------------------------------------------------------------
+## ----dag_str------------------------------------------------------------------
 tidy_dag <- tidy_dagitty(dagified)
 str(tidy_dag)
 
-## ----parents-------------------------------------------------------------
+## ----parents------------------------------------------------------------------
 node_parents(tidy_dag, "x")
 
-## ----pathways------------------------------------------------------------
+## ----pathways-----------------------------------------------------------------
 bigger_dag <- dagify(y ~ x + a + b,
                      x ~ a + b,
                      exposure = "x",
@@ -44,7 +44,7 @@ bigger_dag <- dagify(y ~ x + a + b,
 #  outcome
 dag_paths(bigger_dag)  
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(dplyr)
 #  find how many variables are in between x and y in each path
 bigger_dag %>% 
@@ -53,18 +53,18 @@ bigger_dag %>%
   filter(!is.na(path) & !is.na(name)) %>% 
   summarize(n_vars_between = n() - 1L)
 
-## ----ggdag_path, fig.width=6.5-------------------------------------------
+## ----ggdag_path, fig.width=6.5------------------------------------------------
 ggdag_paths(bigger_dag)
 
-## ----ggdag_parents-------------------------------------------------------
+## ----ggdag_parents------------------------------------------------------------
 ggdag_parents(bigger_dag, "x")
 
-## ----ggdag_adjustment_---------------------------------------------------
+## ----ggdag_adjustment_--------------------------------------------------------
 #  quickly get the miniminally sufficient adjustment sets to adjust for when 
 #  analyzing the effect of x on y
 ggdag_adjustment_set(bigger_dag)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 bigger_dag %>% 
     node_parents("x") %>%
     ggplot(aes(x = x, y = y, xend = xend, yend = yend, color = parent)) +
@@ -74,7 +74,7 @@ bigger_dag %>%
       theme_dag() +
       scale_color_hue(breaks  = c("parent", "child")) #  ignores NA in legend
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dagify(y ~ x,
        m ~ x + y) %>% 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
@@ -83,7 +83,7 @@ dagify(y ~ x,
     geom_dag_text() +
     theme_dag()
 
-## ----canonical-----------------------------------------------------------
+## ----canonical----------------------------------------------------------------
 dagify(y ~ x + z,
        x ~~ z) %>% 
     node_canonical() %>% 
