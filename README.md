@@ -13,8 +13,6 @@ status](https://www.r-pkg.org/badges/version/ggdag)](https://cran.r-project.org/
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Codecov test
 coverage](https://codecov.io/gh/malcolmbarrett/ggdag/branch/master/graph/badge.svg)](https://codecov.io/gh/malcolmbarrett/ggdag?branch=master)
-[![Monthly CRAN
-downloads](https://cranlogs.r-pkg.org/badges/ggdag)](https://cran.r-project.org/package=ggdag)
 [![Total CRAN
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/ggdag)](https://cran.r-project.org/package=ggdag)
 <!-- badges: end -->
@@ -51,14 +49,15 @@ create DAGs using a more R-like syntax:
 library(ggdag)
 
 #  example from the dagitty package
-dag <- dagitty::dagitty( "dag {
+dag <- dagitty::dagitty("dag {
     y <- x <- z1 <- v -> z2 -> y
-               z1 <- w1 <-> w2 -> z2
-               x <- w1 -> y
-               x <- w2 -> y
-               x [exposure]
-               y [outcome]
-               }")
+    z1 <- w1 <-> w2 -> z2
+    x <- w1 -> y
+    x <- w2 -> y
+    x [exposure]
+    y [outcome]
+  }"
+)
 
 tidy_dag <- tidy_dagitty(dag)
 
@@ -86,13 +85,16 @@ tidy_dag
 #> 13 y     11.1   6.39 <NA>      <NA>  NA    NA    FALSE
 
 #  using more R-like syntax to create the same DAG
-tidy_ggdag <- dagify(y ~ x + z2 + w2 + w1,
-             x ~ z1 + w1 + w2,
-             z1 ~ w1 + v,
-             z2 ~ w2 + v,
-             w1 ~~ w2, # bidirected path
-             exposure = "x",
-             outcome = "y") %>% tidy_dagitty()
+tidy_ggdag <- dagify(
+  y ~ x + z2 + w2 + w1,
+  x ~ z1 + w1 + w2,
+  z1 ~ w1 + v,
+  z2 ~ w2 + v,
+  w1 ~~ w2, # bidirected path
+  exposure = "x",
+  outcome = "y"
+) %>% 
+  tidy_dagitty()
 
 tidy_ggdag
 #> # A DAG with 7 nodes and 12 edges
@@ -156,7 +158,7 @@ dagify(m ~ x + y) %>%
     geom_dag_text(col = "white") +
     theme_dag() + 
     scale_adjusted() +
-    expand_plot(expand_y = expand_scale(c(0.2, 0.2))) +
+    expand_plot(expand_y = expansion(c(0.2, 0.2))) +
     scale_color_viridis_d(
       name = "d-relationship", 
       na.value = "grey85", 
