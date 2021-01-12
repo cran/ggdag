@@ -1,3 +1,9 @@
+# ggdag 0.2.3
+
+* Update vdiffr to be explicitly conditional (#51)
+* Fixed bug in `activate_collider_paths()` that causes an error where a collider had a high number of ancestors (#49)
+* Fixed bug in `node_equivalent_dags()` where extra columns did not get joined to new tidy DAG (#40)
+
 # ggdag 0.2.2
 * Added vdiffr tests, as well as a basic test file for every `.R` file. (#27)
 * Updated roxygen2 version (#29)
