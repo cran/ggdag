@@ -14,6 +14,7 @@ set.seed(2939)
 ## ----set_theme----------------------------------------------------------------
 #  set theme of all DAGs to `theme_dag()`
 library(ggdag)
+library(ggplot2)
 theme_set(theme_dag())
 
 ## -----------------------------------------------------------------------------

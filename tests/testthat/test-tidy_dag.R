@@ -1,5 +1,3 @@
-context("Tidying DAGs")
-
 test_that("tidied dags are in good shape", {
   tidy_dag <- dagify(y ~ x + z, x ~ z) %>% tidy_dagitty()
   expect_true(dagitty::is.dagitty(tidy_dag$dag))
@@ -14,6 +12,13 @@ test_that("tidied dags are in good shape", {
   expect_true(is.logical(tidy_dag$data$circular))
   expect_true(is.numeric(tidy_dag$data$x))
   expect_true(is.numeric(tidy_dag$data$y))
+})
+
+test_that("Forbidden layouts error", {
+  expect_error(
+    tidy_dagitty(dagify(y ~ x + z, x ~ z), layout = "dendogram"),
+    "Layout type `dendogram` not supported in ggdag"
+  )
 })
 
 expect_function_produces_name <- function(tidy_dag, column) {
