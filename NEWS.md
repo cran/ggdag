@@ -1,10 +1,14 @@
+# ggdag 0.2.5
+* Fixed issue with `dag_adjustment_sets()` when `width` option was low by extracting adjustment sets directly (#70)
+* Fixed issue with `tidy_dagitty()` that missed nodes with no edges attached. May cause minor breaking changes in randomized layouts. (#68)
+* Added the `limit` argument to `dag_paths`, `ggdag_paths`, and `ggdag_paths_fan` (see `dagitty::paths`) (#65).
+
 # ggdag 0.2.4
 * `tidy_dagitty()` no longer allows the dendogram layout type (#62)
 * `scale_adjusted()` now correctly aligns legend types (#61)
 * ggdag no longer loads ggplot2 via `Depends`, instead importing it internally (#57).
 
 # ggdag 0.2.3
-
 * Update vdiffr to be explicitly conditional (#51)
 * Fixed bug in `activate_collider_paths()` that causes an error where a collider had a high number of ancestors (#49)
 * Fixed bug in `node_equivalent_dags()` where extra columns did not get joined to new tidy DAG (#40)

@@ -230,6 +230,6 @@
 <circle cx='643.30' cy='322.62' r='17.43' style='stroke-width: 0.71; stroke: #00BFC4; fill: #00BFC4;' />
 <text x='671.46' y='280.29' style='font-size: 8.80px; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>adjusted</text>
 <text x='671.46' y='325.64' style='font-size: 8.80px; font-family: sans;' textLength='43.06px' lengthAdjust='spacingAndGlyphs'>unadjusted</text>
-<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='190.81px' lengthAdjust='spacingAndGlyphs'>ggdag_adjustment_set() renders</text>
+<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='275.91px' lengthAdjust='spacingAndGlyphs'>ggdag_adjustment_set() renders with low width</text>
 </g>
 </svg>

@@ -1,6 +1,6 @@
 Package: ggdag
 Title: Analyze and Create Elegant Directed Acyclic Graphs
-Version: 0.2.4
+Version: 0.2.5
 Authors@R: 
     person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0299-5825"))
@@ -18,15 +18,15 @@ Imports: dagitty, dplyr, forcats, ggplot2 (>= 3.0.0), ggraph (>=
         2.0.0), ggrepel, igraph, magrittr, pillar, purrr, stringr,
         tibble, tidygraph
 Suggests: covr, knitr, rmarkdown, spelling, testthat (>= 3.0.0), vdiffr
-        (>= 1.0.2)
+        (>= 1.0.2), withr
 VignetteBuilder: knitr
 Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.1.2
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2021-10-10 18:10:51 UTC; malcolmbarrett
+Packaged: 2022-07-16 18:03:55 UTC; malcolmbarrett
 Author: Malcolm Barrett [aut, cre] (<https://orcid.org/0000-0003-0299-5825>)
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-10-10 18:50:02 UTC
+Date/Publication: 2022-07-16 18:30:05 UTC
