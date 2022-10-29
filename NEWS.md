@@ -1,3 +1,8 @@
+# ggdag 0.2.7
+* Fixed various bugs in calculating and visualizing paths (#75)
+* Fixed breaking changes from the upcoming release of ggplot2 3.4.0 (#79)
+* `size` is now deprecated for `geom_dag_collider_edges()` in favor of `linewidth`, related to #79.
+
 # ggdag 0.2.6
 * Fixed CRAN errors
 

@@ -10,7 +10,8 @@ geom_dag_collider_edges(
   stat = "identity",
   position = "identity",
   ...,
-  size = 0.6,
+  linewidth = 0.6,
+  size = NULL,
   curvature = 0.5,
   angle = 90,
   ncp = 5,
@@ -22,10 +23,10 @@ geom_dag_collider_edges(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
-\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
-default), it is combined with the default mapping at the top level of the
-plot. You must supply \code{mapping} if there is no plot mapping.}
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}}. If specified and
+\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+at the top level of the plot. You must supply \code{mapping} if there is no plot
+mapping.}
 
 \item{data}{The data to be displayed in this layer. There are three
 options:
@@ -43,17 +44,23 @@ will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this
-layer, as a string.}
+layer, either as a \code{ggproto} \code{Geom} subclass or as a string naming the
+stat stripped of the \code{stat_} prefix (e.g. \code{"count"} rather than
+\code{"stat_count"})}
 
-\item{position}{Position adjustment, either as a string, or the result of
-a call to a position adjustment function.}
+\item{position}{Position adjustment, either as a string naming the adjustment
+(e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{size}{a numeric vector of length 1. Edge width}
+\item{linewidth}{a numeric vector of length 1. Edge width}
+
+\item{size}{deprecated. Please use \code{linewidth}.}
 
 \item{curvature}{A numeric value giving the amount of curvature.
     Negative values produce left-hand curves, positive values
@@ -68,7 +75,7 @@ to the paired geom/stat.}
 \item{ncp}{The number of control points used to draw the curve.
     More control points creates a smoother curve.}
 
-\item{arrow}{specification for arrow heads, as created by arrow().}
+\item{arrow}{specification for arrow heads, as created by \code{\link[grid:arrow]{grid::arrow()}}.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -97,10 +104,10 @@ dagify(m ~ a + b, x ~ a, y ~ b) \%>\%
   tidy_dagitty() \%>\%
   control_for("m") \%>\%
   ggplot(aes(x = x, y = y, xend = xend, yend = yend, shape = adjusted)) +
-    geom_dag_edges() +
-    geom_dag_collider_edges() +
-    geom_dag_point() +
-    geom_dag_text() +
-    theme_dag() +
-    scale_adjusted()
+  geom_dag_edges() +
+  geom_dag_collider_edges() +
+  geom_dag_point() +
+  geom_dag_text() +
+  theme_dag() +
+  scale_adjusted()
 }

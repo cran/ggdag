@@ -33,7 +33,7 @@ utils::globalVariables(
     "segment.colour",
     "status",
     "to",
-    'type',
+    "type",
     "v",
     "w",
     ".ggraph.orig_index",
@@ -52,7 +52,9 @@ utils::globalVariables(
 )
 
 if_not_tidy_daggity <- function(.dagitty, ...) {
-  if (!is.tidy_dagitty(.dagitty)) return(tidy_dagitty(.dagitty, ...))
+  if (!is.tidy_dagitty(.dagitty)) {
+    return(tidy_dagitty(.dagitty, ...))
+  }
   .dagitty
 }
 
@@ -65,7 +67,9 @@ unique_pairs <- function(x, exclude_identical = TRUE) {
 formula2char <- function(fmla) {
   #  using default to avoid `formula.tools::as.character.formula()`
   char_fmla <- as.character.default(fmla)
-  rhs_vars <- char_fmla[[3]] %>% stringr::str_split(" \\+ ") %>% purrr::pluck(1)
+  rhs_vars <- char_fmla[[3]] %>%
+    stringr::str_split(" \\+ ") %>%
+    purrr::pluck(1)
   bidirectional <- any(stringr::str_detect(rhs_vars, "~"))
   rhs_vars <- stringr::str_replace_all(rhs_vars, "~", "")
   arrows <- ifelse(bidirectional, "<->", "<-")
@@ -74,10 +78,12 @@ formula2char <- function(fmla) {
 }
 
 edge_type_switch <- function(edge_type) {
-  switch(edge_type, "link_arc" = geom_dag_edges,
-         "link" = geom_dag_edges_link,
-         "arc" = geom_dag_edges_arc,
-         "diagonal" = geom_dag_edges_diagonal)
+  switch(edge_type,
+    "link_arc" = geom_dag_edges,
+    "link" = geom_dag_edges_link,
+    "arc" = geom_dag_edges_arc,
+    "diagonal" = geom_dag_edges_diagonal
+  )
 }
 
 is_empty_or_null <- function(x) {
@@ -128,20 +134,22 @@ collider_paths <- function(x) {
   paths
 }
 
-#' @importFrom utils getFromNamespace
 #' @noRd
-expansion_verb <- function() {
-  if (ggplot2_gt_3_3_0()) return(utils::getFromNamespace("expansion", "ggplot2"))
-
-  ggplot2::expand_scale
+expansion <- function(...) {
+  if (ggplot2_version() >= "3.3.0") {
+    ggplot2::expansion(...)
+  } else {
+    ggplot2::expand_scale(...)
+  }
 }
 
 #' @importFrom utils packageVersion
 #' @noRd
-ggplot2_gt_3_3_0 <- function() {
-  utils::packageVersion("ggplot2") >= "3.3.0"
+ggplot2_version <- function() {
+  utils::packageVersion("ggplot2")
 }
 
-expansion <- expansion_verb()
-
-
+ggname <- function(prefix, grob) {
+  grob$name <- grid::grobName(grob, prefix)
+  grob
+}
