@@ -1,3 +1,7 @@
+# ggdag 0.2.8
+* Added new function `time_ordered_coords()` for calculating time-ordered coordinates (#88)
+* Addressed changes requested by CRAN, other changes in tidyverse (#87, #86, #85)
+
 # ggdag 0.2.7
 * Fixed various bugs in calculating and visualizing paths (#75)
 * Fixed breaking changes from the upcoming release of ggplot2 3.4.0 (#79)
