@@ -1,6 +1,6 @@
 Package: ggdag
 Title: Analyze and Create Elegant Directed Acyclic Graphs
-Version: 0.2.9
+Version: 0.2.10
 Authors@R: 
     person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0299-5825"))
@@ -26,8 +26,8 @@ Language: en-US
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-05-22 17:21:07 UTC; malcolmbarrett
+Packaged: 2023-05-28 16:16:40 UTC; malcolmbarrett
 Author: Malcolm Barrett [aut, cre] (<https://orcid.org/0000-0003-0299-5825>)
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-05-22 19:50:02 UTC
+Date/Publication: 2023-05-28 23:30:02 UTC
