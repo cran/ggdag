@@ -17,7 +17,7 @@
 #' @param stylized logical. Should DAG nodes be stylized? If so, use
 #'   `geom_dag_nodes` and if not use `geom_dag_point`
 #' @param text logical. Should text be included in the DAG?
-#' @param use_labels a string. Variable to use for `geom_dag_repel_label()`.
+#' @param use_labels a string. Variable to use for `geom_dag_label_repel()`.
 #'   Default is `NULL`.
 #'
 #' @return a `ggplot`
@@ -120,7 +120,7 @@ ggdag_classic <- function(.tdy_dag, ..., size = 8, label_rect_size = NULL,
       col = text_col
     )
 
-  if (any(.tdy_dag$data$direction == "<->" & !is.na(.tdy_dag$data$direction))) {
+  if (any(pull_dag_data(.tdy_dag)$direction == "<->" & !is.na(pull_dag_data(.tdy_dag)$direction))) {
     p <- p + geom_dag_edges(ggplot2::aes(
       start_cap = ggraph::label_rect(name, fontsize = fontsize),
       end_cap = ggraph::label_rect(to, fontsize = fontsize)

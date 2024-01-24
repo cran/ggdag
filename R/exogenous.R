@@ -19,7 +19,7 @@
 #' @param stylized logical. Should DAG nodes be stylized? If so, use
 #'   `geom_dag_nodes` and if not use `geom_dag_point`
 #' @param text logical. Should text be included in the DAG?
-#' @param use_labels a string. Variable to use for `geom_dag_repel_label()`.
+#' @param use_labels a string. Variable to use for `geom_dag_label_repel()`.
 #'   Default is `NULL`.
 #'
 #' @return a `tidy_dagitty` with an `exogenous` column for
@@ -35,9 +35,12 @@
 #' @name Exogenous Variables
 node_exogenous <- function(.dag, ...) {
   .dag <- if_not_tidy_daggity(.dag, ...)
-  exogenous_vars <- dagitty::exogenousVariables(.dag$dag)
-  .dag$data <- .dag$data %>% dplyr::mutate(exogenous = ifelse(name %in% exogenous_vars, "exogenous", NA))
-  .dag
+  exogenous_vars <- dagitty::exogenousVariables(pull_dag(.dag))
+
+  dplyr::mutate(
+    .dag,
+    exogenous = ifelse(name %in% exogenous_vars, "exogenous", NA)
+  )
 }
 
 #' @rdname exogenous

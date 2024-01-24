@@ -17,20 +17,20 @@ library(ggdag)
 library(ggplot2)
 theme_set(theme_dag())
 
-## ---- fig.width = 4-----------------------------------------------------------
+## ----fig.width = 4------------------------------------------------------------
 dagify(y ~ x) %>%
   ggdag()
 
-## ---- fig.width = 4-----------------------------------------------------------
+## ----fig.width = 4------------------------------------------------------------
 dagify(y ~ ~x) %>%
   ggdag()
 
-## ---- fig.width = 4-----------------------------------------------------------
+## ----fig.width = 4------------------------------------------------------------
 #  canonicalize the DAG: Add the latent variable in to the graph
 dagify(y ~ ~x) %>%
   ggdag_canonical()
 
-## ---- fig.width = 4-----------------------------------------------------------
+## ----fig.width = 4------------------------------------------------------------
 dagify(
   y ~ x,
   x ~ a,
@@ -63,7 +63,7 @@ ggdag_paths(smoking_ca_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 ## -----------------------------------------------------------------------------
 ggdag_adjustment_set(smoking_ca_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
-## ---- fig.width = 4-----------------------------------------------------------
+## ----fig.width = 4------------------------------------------------------------
 fever_dag <- collider_triangle(
   x = "Influenza",
   y = "Chicken Pox",

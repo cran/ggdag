@@ -1,6 +1,6 @@
 #' Create a dagitty DAG
 #'
-#' A convenience wrapper for dagitty::dagitty("dag{...}")
+#' A convenience wrapper for `dagitty::dagitty()`.
 #'
 #' @param ... a character vector in the style of dagitty. See
 #' \code{dagitty::\link[dagitty]{dagitty}} for details.
@@ -95,10 +95,34 @@ dagify <- function(..., exposure = NULL, outcome = NULL, latent = NULL, labels =
       dagitty::coordinates(dgty) <- coords2list(coords)
     } else if (is.list(coords)) {
       dagitty::coordinates(dgty) <- coords
+    } else if (is.function(coords)) {
+      dagitty::coordinates(dgty) <- dgty %>%
+        get_dagitty_edges() %>%
+        edges2df() %>%
+        coords() %>%
+        coords2list()
     } else {
-      stop("`coords` must be of class `list` or `data.frame`")
+      stop("`coords` must be of class `list`, `data.frame`, or `function`")
     }
   }
   if (!is.null(labels)) label(dgty) <- labels
   dgty
+}
+
+get_dagitty_edges <- function(.dag) {
+  .edges <- dagitty::edges(.dag)
+  .edges %>%
+    dplyr::select(-x, -y) %>%
+    dplyr::rename(name = v, to = w, direction = e)
+}
+
+edges2df <- function(.edges) {
+  no_outgoing_edges <- unique(.edges$to[!(.edges$to %in% .edges$name)])
+  dplyr::bind_rows(
+    .edges,
+    data.frame(
+      name = no_outgoing_edges,
+      to = rep(NA, length(no_outgoing_edges))
+    )
+  )
 }

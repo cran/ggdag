@@ -20,7 +20,7 @@
 #' @param stylized logical. Should DAG nodes be stylized? If so, use
 #'   `geom_dag_nodes` and if not use `geom_dag_point`
 #' @param text logical. Should text be included in the DAG?
-#' @param use_labels a string. Variable to use for `geom_dag_repel_label()`.
+#' @param use_labels a string. Variable to use for `geom_dag_label_repel()`.
 #'   Default is `NULL`.
 #'
 #' @return a `tidy_dagitty` that includes L or a `ggplot`
@@ -38,7 +38,7 @@
 #' @name Canonicalize DAGs
 node_canonical <- function(.dag, ...) {
   .dag <- if_not_tidy_daggity(.dag)
-  dagitty::canonicalize(.dag$dag)$g %>% tidy_dagitty(...)
+  dagitty::canonicalize(pull_dag(.dag))$g %>% tidy_dagitty(...)
 }
 
 #' @rdname canonicalize

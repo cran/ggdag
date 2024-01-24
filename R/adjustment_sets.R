@@ -19,7 +19,7 @@
 #' @param stylized logical. Should DAG nodes be stylized? If so, use
 #'   `geom_dag_nodes` and if not use `geom_dag_point`
 #' @param text logical. Should text be included in the DAG?
-#' @param use_labels a string. Variable to use for `geom_dag_repel_label()`.
+#' @param use_labels a string. Variable to use for `geom_dag_label_repel()`.
 #'   Default is `NULL`.
 #' @inheritParams expand_plot
 #'
@@ -51,7 +51,7 @@
 #' @name Covariate Adjustment Sets
 dag_adjustment_sets <- function(.tdy_dag, exposure = NULL, outcome = NULL, ...) {
   .tdy_dag <- if_not_tidy_daggity(.tdy_dag)
-  sets <- dagitty::adjustmentSets(.tdy_dag$dag, exposure = exposure, outcome = outcome, ...)
+  sets <- dagitty::adjustmentSets(pull_dag(.tdy_dag), exposure = exposure, outcome = outcome, ...)
   is_empty_set <- purrr::is_empty(sets)
   if (is_empty_set) {
     warning("Failed to close backdoor paths. Common reasons include:
@@ -63,10 +63,10 @@ dag_adjustment_sets <- function(.tdy_dag, exposure = NULL, outcome = NULL, ...) 
     sets <- extract_sets(sets)
   }
 
-  .tdy_dag$data <-
+  update_dag_data(.tdy_dag) <-
     purrr::map_df(
       sets,
-      ~ dplyr::mutate(.tdy_dag$data, adjusted = ifelse(name %in% .x, "adjusted", "unadjusted"), set = paste0("{", paste(.x, collapse = ", "), "}"))
+      ~ dplyr::mutate(pull_dag_data(.tdy_dag), adjusted = ifelse(name %in% .x, "adjusted", "unadjusted"), set = paste0("{", paste(.x, collapse = ", "), "}"))
     )
 
   .tdy_dag
@@ -159,7 +159,8 @@ ggdag_adjustment_set <- function(.tdy_dag, exposure = NULL, outcome = NULL, ...,
 #' is_confounder(dag, "x", "z", "y")
 #'
 is_confounder <- function(.tdy_dag, z, x, y, direct = FALSE) {
-  dag <- if_not_tidy_daggity(.tdy_dag)$dag
+  .tdy_dag <- if_not_tidy_daggity(.tdy_dag)
+  dag <- pull_dag(.tdy_dag)
 
   if (direct) {
     z_descendants <- dagitty::children(dag, z)
@@ -185,7 +186,7 @@ is_confounder <- function(.tdy_dag, z, x, y, direct = FALSE) {
 #'   `geom_dag_nodes` and if not use `geom_dag_point`
 #' @param text logical. Should text be included in the DAG?
 #' @param use_labels a string. Variable to use for
-#'   `geom_dag_repel_label()`. Default is `NULL`.
+#'   `geom_dag_label_repel()`. Default is `NULL`.
 #' @param collider_lines logical. Should the plot show paths activated by
 #'   adjusting for a collider?
 #' @param as_factor logical. Should the `adjusted` column be a factor?
@@ -205,10 +206,12 @@ is_confounder <- function(.tdy_dag, z, x, y, direct = FALSE) {
 #' @name Adjust for variables
 control_for <- function(.tdy_dag, var, as_factor = TRUE, activate_colliders = TRUE, ...) {
   .tdy_dag <- if_not_tidy_daggity(.tdy_dag, ...)
-  dagitty::adjustedNodes(.tdy_dag$dag) <- var
+  updated_dag <- pull_dag(.tdy_dag)
+  dagitty::adjustedNodes(updated_dag) <- var
+  update_dag(.tdy_dag) <- updated_dag
   if (isTRUE(activate_colliders)) .tdy_dag <- activate_collider_paths(.tdy_dag, var)
-  .tdy_dag$data <- dplyr::mutate(.tdy_dag$data, adjusted = ifelse(name %in% var, "adjusted", "unadjusted"))
-  if (as_factor) .tdy_dag$data <- dplyr::mutate(.tdy_dag$data, adjusted = factor(adjusted, exclude = NA))
+  .tdy_dag <- dplyr::mutate(.tdy_dag, adjusted = ifelse(name %in% var, "adjusted", "unadjusted"))
+  if (as_factor) .tdy_dag <- dplyr::mutate(.tdy_dag, adjusted = factor(adjusted, exclude = NA))
   .tdy_dag
 }
 
@@ -226,9 +229,9 @@ ggdag_adjust <- function(.tdy_dag, var = NULL, ...,
   if (!is.null(var)) {
     .tdy_dag <- .tdy_dag %>% control_for(var)
   } else {
-    var <- dagitty::adjustedNodes(.tdy_dag$dag)
+    var <- dagitty::adjustedNodes(pull_dag(.tdy_dag))
     if (is.null(var)) stop("an adjusting variable needs to be set, either via `var` or `control_for()`")
-    if (is.null(.tdy_dag$data$adjusted)) .tdy_dag <- .tdy_dag %>% control_for(var)
+    if (is.null(pull_dag_data(.tdy_dag)$adjusted)) .tdy_dag <- .tdy_dag %>% control_for(var)
   }
 
   p <- .tdy_dag %>%

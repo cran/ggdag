@@ -36,7 +36,7 @@ coffee_dag <- dagify(cancer ~ smoking,
 
 ggdag(coffee_dag, text = FALSE, use_labels = "label")
 
-## ---- fig.width = 7.5---------------------------------------------------------
+## ----fig.width = 7.5----------------------------------------------------------
 ggdag_adjustment_set(coffee_dag, text = FALSE, use_labels = "label", shadow = TRUE)
 
 ## -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ m_bias(
 ) %>%
   ggdag(use_labels = "label")
 
-## ---- fig.width = 7.5---------------------------------------------------------
+## ----fig.width = 7.5----------------------------------------------------------
 m_bias(
   x = "Education", y = "Diabetes", a = "Income during \nChildhood",
   b = "Genetic Risk \nfor Diabetes", m = "Mother's Diabetes"

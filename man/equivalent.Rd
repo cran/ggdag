@@ -48,7 +48,9 @@ ggdag_equivalent_class(
 
 \item{n}{maximal number of returned graphs.}
 
-\item{layout}{a layout available in \code{ggraph}. See \code{\link[ggraph:ggraph]{ggraph::create_layout()}} for details.}
+\item{layout}{a layout available in \code{ggraph}. See \code{\link[ggraph:ggraph]{ggraph::create_layout()}}
+for details. Alternatively, \code{"time_ordered"} will use
+\code{time_ordered_coords()} to algorithmically sort the graph by time.}
 
 \item{...}{optional arguments passed to \code{ggraph::create_layout()}}
 
@@ -71,7 +73,7 @@ ggdag_equivalent_class(
 
 \item{text}{logical. Should text be included in the DAG?}
 
-\item{use_labels}{a string. Variable to use for \code{geom_dag_repel_label()}.
+\item{use_labels}{a string. Variable to use for \code{geom_dag_label_repel()}.
 Default is \code{NULL}.}
 
 \item{expand_x, expand_y}{Vector of range expansion constants used to add some
