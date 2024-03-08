@@ -1,11 +1,16 @@
 ## ----setup, include = FALSE---------------------------------------------------
+if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  dpi <- 320
+} else {
+  dpi <- 72
+}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.width = 7,
   fig.height = 4,
   fig.align = "center",
-  fig.dpi = 320,
+  fig.dpi = dpi,
   warning = FALSE,
   message = FALSE
 )
