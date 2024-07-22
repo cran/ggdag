@@ -12,7 +12,7 @@
 
 <meta name="author" content="Malcolm Barrett" />
 
-<meta name="date" content="2024-03-07" />
+<meta name="date" content="2024-07-21" />
 
 <title>An Introduction to ggdag</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">An Introduction to ggdag</h1>
 <h4 class="author">Malcolm Barrett</h4>
-<h4 class="date">2024-03-07</h4>
+<h4 class="date">2024-07-21</h4>
 
 
 
@@ -426,30 +426,9 @@ tidied, <code>ggdag()</code> and most other quick plotting functions in
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   ..$ xend     : num [1:4] NA NA 1.43 -0.835</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   ..$ yend     : num [1:4] NA NA 0.756 1.119</span></span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   ..$ circular : logi [1:4] FALSE FALSE FALSE FALSE</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;graph&quot;)=Classes &#39;tbl_graph&#39;, &#39;igraph&#39;  hidden list of 10</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : num 3</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : logi TRUE</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : num [1:2] 2 2</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : num [1:2] 0 1</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : NULL</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : NULL</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : NULL</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;   .. ..$ : NULL</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;   .. ..$ :List of 4</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ : num [1:3] 1 0 1</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ : Named list()</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ :List of 4</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ name              : chr [1:3] &quot;x&quot; &quot;y&quot; &quot;z&quot;</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ .ggraph.orig_index: int [1:3] 1 2 3</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ .ggraph_layout_x  : num [1:3] 1.43 -0.835 0.298</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ .ggraph_layout_y  : num [1:3] 0.756 1.119 0.938</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ :List of 1</span></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ direction: Factor w/ 2 levels &quot;left&quot;,&quot;right&quot;: 1 2</span></span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt;   .. ..$ :&lt;environment: 0x126db54e0&gt; </span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;active&quot;)= chr &quot;edges&quot;</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;circular&quot;)= logi FALSE</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt;  $ dag : &#39;dagitty&#39; Named chr &quot;dag {\nx [exposure]\ny [outcome]\nz\nz -&gt; x\nz -&gt; y\n}\n&quot;</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr &quot;tidy_dagitty&quot;</span></span></code></pre></div>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;circular&quot;)= logi FALSE</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  $ dag : &#39;dagitty&#39; Named chr &quot;dag {\nx [exposure]\ny [outcome]\nz\nz -&gt; x\nz -&gt; y\n}\n&quot;</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr &quot;tidy_dagitty&quot;</span></span></code></pre></div>
 </div>
 <div id="working-with-dags" class="section level1">
 <h1>Working with DAGs</h1>
